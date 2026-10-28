@@ -9,6 +9,13 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800&display=swap');
+    
+    body {
+      font-family: 'M PLUS Rounded 1c', sans-serif;
+      background-color: #fffaf0;
+    }
+
     @media print {
       .no-print { display: none !important; }
       .print-only { display: block !important; }
@@ -18,25 +25,25 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen pb-12">
+<body class="text-amber-950 min-h-screen pb-12">
 
   <!-- ヘッダー -->
-  <header class="bg-indigo-600 text-white shadow-md no-print mb-6">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-3">
+  <header class="bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 text-white shadow-md no-print mb-8">
+    <div class="max-w-6xl mx-auto px-4 py-5 flex flex-col sm:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-3">
-        <div class="bg-indigo-500 p-2 rounded-lg text-2xl">
-          <i class="fa-solid fa-file-invoice-dollar"></i>
+        <div class="bg-white/20 p-3 rounded-2xl text-3xl shadow-inner backdrop-blur-sm">
+          🍬
         </div>
         <div>
-          <h1 class="text-xl font-bold tracking-wide">お菓子詰め合わせ 予算計算ツール</h1>
-          <p class="text-xs text-indigo-200">作業内容はブラウザに自動保存されます</p>
+          <h1 class="text-2xl font-extrabold tracking-wide drop-shadow-sm">お菓子詰め合わせ 予算計算ツール</h1>
+          <p class="text-xs text-amber-100 font-bold">✨ 作業内容はブラウザに自動保存されます</p>
         </div>
       </div>
       <div class="flex items-center gap-2">
-        <button id="btn-reset" class="px-3 py-1.5 bg-indigo-700 hover:bg-indigo-800 text-indigo-100 text-xs rounded transition flex items-center gap-1.5">
+        <button id="btn-reset" class="px-3.5 py-2 bg-rose-500/80 hover:bg-rose-600 text-white text-xs font-bold rounded-xl transition shadow-sm flex items-center gap-1.5 backdrop-blur-sm">
           <i class="fa-solid fa-rotate-left"></i> データを初期化
         </button>
-        <button onclick="window.print()" class="px-3 py-1.5 bg-white text-indigo-600 font-medium hover:bg-indigo-50 text-xs rounded shadow-sm transition flex items-center gap-1.5">
+        <button onclick="window.print()" class="px-3.5 py-2 bg-white text-amber-600 font-bold hover:bg-amber-50 text-xs rounded-xl shadow-sm transition flex items-center gap-1.5">
           <i class="fa-solid fa-print"></i> 印刷 / PDF保存
         </button>
       </div>
@@ -49,28 +56,29 @@
     <section class="lg:col-span-7 space-y-6">
 
       <!-- お菓子パック追加フォーム -->
-      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm no-print">
-        <h2 class="text-base font-bold text-slate-700 mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-plus-circle text-indigo-500"></i> 新しいお菓子パックを追加
+      <div class="bg-white p-6 rounded-3xl border-2 border-orange-100 shadow-sm no-print">
+        <h2 class="text-base font-extrabold text-amber-900 mb-4 flex items-center gap-2">
+          <span class="bg-orange-100 text-orange-500 p-1.5 rounded-xl text-xs"><i class="fa-solid fa-plus"></i></span>
+          新しいお菓子パックを追加
         </h2>
         <form id="add-snack-form" class="grid grid-cols-1 sm:grid-cols-12 gap-3">
           <div class="sm:col-span-5">
-            <label class="block text-xs font-medium text-slate-500 mb-1">お菓子名・商品名</label>
+            <label class="block text-xs font-bold text-amber-700/80 mb-1">お菓子名・商品名</label>
             <input type="text" id="input-name" required placeholder="例: うまい棒 30本入" 
-                   class="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                   class="w-full px-3.5 py-2 text-sm bg-orange-50/30 border-2 border-orange-100 rounded-xl focus:border-orange-400 focus:bg-white focus:outline-none font-bold">
           </div>
           <div class="sm:col-span-3">
-            <label class="block text-xs font-medium text-slate-500 mb-1">パック価格 (円)</label>
+            <label class="block text-xs font-bold text-amber-700/80 mb-1">パック価格 (円)</label>
             <input type="number" id="input-price" required min="1" placeholder="360" 
-                   class="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                   class="w-full px-3.5 py-2 text-sm bg-orange-50/30 border-2 border-orange-100 rounded-xl focus:border-orange-400 focus:bg-white focus:outline-none font-bold">
           </div>
           <div class="sm:col-span-2">
-            <label class="block text-xs font-medium text-slate-500 mb-1">個包装数</label>
+            <label class="block text-xs font-bold text-amber-700/80 mb-1">個包装数</label>
             <input type="number" id="input-count" required min="1" placeholder="30" 
-                   class="w-full px-3 py-1.5 text-sm border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                   class="w-full px-3.5 py-2 text-sm bg-orange-50/30 border-2 border-orange-100 rounded-xl focus:border-orange-400 focus:bg-white focus:outline-none font-bold">
           </div>
           <div class="sm:col-span-2 flex items-end">
-            <button type="submit" class="w-full py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-md transition shadow-sm">
+            <button type="submit" class="w-full py-2 bg-gradient-to-r from-orange-400 to-amber-400 hover:from-orange-500 hover:to-amber-500 text-white font-extrabold text-sm rounded-xl transition shadow-md shadow-orange-200">
               追加
             </button>
           </div>
@@ -78,28 +86,28 @@
       </div>
 
       <!-- 登録お菓子マスター一覧 兼 構成設定 -->
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-          <h2 class="font-bold text-slate-700 flex items-center gap-2">
-            <i class="fa-solid fa-cookie-bite text-amber-500"></i> お菓子一覧 &amp; 1袋への封入数
+      <div class="bg-white rounded-3xl border-2 border-amber-100 shadow-sm overflow-hidden">
+        <div class="p-5 bg-amber-50/60 border-b border-amber-100 flex justify-between items-center">
+          <h2 class="font-extrabold text-amber-900 flex items-center gap-2">
+            <span class="text-xl">🍪</span> お菓子一覧 &amp; 1袋への封入数
           </h2>
-          <span class="text-xs text-slate-500">※個包装単価は小数点以下切り上げ</span>
+          <span class="text-xs font-bold text-amber-600/80 bg-amber-100/50 px-2.5 py-1 rounded-full">※個包装単価は切り上げ</span>
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm">
-            <thead class="bg-slate-100 text-slate-600 text-xs uppercase border-b border-slate-200">
+            <thead class="bg-amber-50/30 text-amber-800 text-xs font-bold border-b border-amber-100">
               <tr>
-                <th class="p-3">商品名</th>
-                <th class="p-3 text-right">パック価格</th>
-                <th class="p-3 text-right">個数</th>
-                <th class="p-3 text-right bg-amber-50/50 text-amber-900">単価(切上)</th>
-                <th class="p-3 text-center no-print" style="width: 110px;">1袋に入れる量</th>
-                <th class="p-3 text-right">1袋あたり小計</th>
-                <th class="p-3 text-center no-print" style="width: 50px;">操作</th>
+                <th class="p-3.5">商品名</th>
+                <th class="p-3.5 text-right">パック価格</th>
+                <th class="p-3.5 text-right">個数</th>
+                <th class="p-3.5 text-right bg-orange-100/40 text-orange-900">単価(切上)</th>
+                <th class="p-3.5 text-center no-print" style="width: 120px;">1袋に入れる量</th>
+                <th class="p-3.5 text-right">1袋あたり小計</th>
+                <th class="p-3.5 text-center no-print" style="width: 50px;">操作</th>
               </tr>
             </thead>
-            <tbody id="snack-table-body" class="divide-y divide-slate-100">
+            <tbody id="snack-table-body" class="divide-y divide-amber-50">
               <!-- JSで動的生成 -->
             </tbody>
           </table>
@@ -112,67 +120,67 @@
     <section class="lg:col-span-5 space-y-6">
 
       <!-- 詰め合わせ1袋の合計 ＆ 目標セット数 -->
-      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-5">
-        <div class="border-b border-slate-100 pb-3">
-          <h2 class="font-bold text-slate-700 text-base flex items-center gap-2">
-            <i class="fa-solid fa-box text-indigo-500"></i> 詰め合わせセット全体計算
+      <div class="bg-white p-6 rounded-3xl border-2 border-orange-100 shadow-sm space-y-5">
+        <div class="border-b border-amber-50 pb-3">
+          <h2 class="font-extrabold text-amber-900 text-base flex items-center gap-2">
+            <span class="text-xl">🎁</span> 詰め合わせセット全体計算
           </h2>
         </div>
 
         <!-- 1袋あたりの計算 -->
-        <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 flex justify-between items-center">
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200/60 rounded-2xl p-4 flex justify-between items-center shadow-inner">
           <div>
-            <span class="text-xs font-bold text-amber-800 uppercase tracking-wider block">詰め合わせ 1袋あたり</span>
-            <span class="text-xs text-amber-600">個包装単価（切り上げ）の合計</span>
+            <span class="text-xs font-extrabold text-amber-800 block">詰め合わせ 1袋あたり</span>
+            <span class="text-[10px] font-bold text-amber-600">個包装単価（切り上げ）の合計</span>
           </div>
           <div class="text-right">
-            <span id="unit-set-price" class="text-2xl font-black text-amber-900">0</span>
-            <span class="text-sm font-bold text-amber-900">円 / 袋</span>
+            <span id="unit-set-price" class="text-3xl font-black text-amber-900">0</span>
+            <span class="text-xs font-extrabold text-amber-800">円 / 袋</span>
           </div>
         </div>
 
         <!-- セット数入力 -->
         <div class="no-print">
-          <label class="block text-xs font-bold text-slate-600 mb-1">作成したいセット数（例: 参加人数）</label>
+          <label class="block text-xs font-bold text-amber-800 mb-1.5">作成したいセット数（例: 参加人数）</label>
           <div class="flex items-center gap-2">
             <input type="number" id="input-target-sets" value="50" min="1"
-                   class="w-full px-3 py-2 border border-slate-300 rounded-md font-bold text-lg text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-            <span class="text-sm font-bold text-slate-600 whitespace-nowrap">セット</span>
+                   class="w-full px-4 py-2 bg-orange-50/20 border-2 border-orange-200 rounded-2xl font-black text-xl text-amber-900 focus:border-orange-400 focus:outline-none">
+            <span class="text-sm font-extrabold text-amber-800 whitespace-nowrap">セット</span>
           </div>
         </div>
 
-        <hr class="border-slate-100">
+        <hr class="border-amber-100">
 
         <!-- 全体予算合計 -->
         <div class="space-y-3">
-          <div class="flex justify-between items-baseline">
-            <span class="text-sm text-slate-600 font-medium">1袋単価 × <span id="summary-sets-count">50</span>袋</span>
-            <span class="text-base font-bold text-slate-700"><span id="summary-pure-total">0</span> 円</span>
+          <div class="flex justify-between items-baseline px-1">
+            <span class="text-xs font-bold text-amber-700">1袋単価 × <span id="summary-sets-count">50</span>袋</span>
+            <span class="text-sm font-bold text-amber-800"><span id="summary-pure-total">0</span> 円</span>
           </div>
 
-          <div class="bg-indigo-50 border border-indigo-100 rounded-lg p-4">
+          <div class="bg-gradient-to-br from-orange-400 to-rose-400 text-white rounded-2xl p-5 shadow-lg shadow-orange-200/50">
             <div class="flex justify-between items-baseline mb-1">
-              <span class="text-xs font-bold text-indigo-900 uppercase">買い出しに必要な【総予算】</span>
-              <span class="text-xs text-indigo-600">※パック単位購入の合計額</span>
+              <span class="text-xs font-bold text-amber-100 uppercase tracking-wider">買い出しに必要な【総予算】</span>
+              <span class="text-[10px] text-amber-100">※パック購入の合計額</span>
             </div>
             <div class="text-right">
-              <span id="summary-actual-cost" class="text-3xl font-black text-indigo-600">0</span>
-              <span class="text-sm font-bold text-indigo-900">円</span>
+              <span id="summary-actual-cost" class="text-4xl font-black drop-shadow-sm">0</span>
+              <span class="text-sm font-extrabold">円</span>
             </div>
           </div>
         </div>
 
-        <button id="btn-copy" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-md transition flex items-center justify-center gap-1.5 no-print">
-          <i class="fa-regular fa-copy"></i> 内訳テキストをコピー
+        <button id="btn-copy" class="w-full py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-extrabold rounded-xl transition flex items-center justify-center gap-2 border border-amber-200/60 no-print">
+          <i class="fa-regular fa-copy text-amber-600"></i> 内訳テキストをコピー
         </button>
       </div>
 
       <!-- 必要な買い出しパック数内訳 -->
-      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
-        <h3 class="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2">
-          <i class="fa-solid fa-cart-shopping text-emerald-500"></i> 買い出しパック数 内訳
+      <div class="bg-white p-6 rounded-3xl border-2 border-amber-100 shadow-sm">
+        <h3 class="text-sm font-extrabold text-amber-900 mb-4 flex items-center gap-2">
+          <span class="text-lg">🛒</span> 買い出しパック数 内訳
         </h3>
-        <div id="shopping-list" class="space-y-2 text-sm divide-y divide-slate-100">
+        <div id="shopping-list" class="space-y-3 text-sm divide-y divide-amber-50">
           <!-- JSで動的生成 -->
         </div>
       </div>
@@ -285,7 +293,7 @@
 
       if (snacks.length === 0) {
         var emptyTr = document.createElement('tr');
-        emptyTr.innerHTML = '<td colspan="7" class="p-8 text-center text-slate-400">お菓子パックが登録されていません。<br>上のフォームからお菓子を追加してください。</td>';
+        emptyTr.innerHTML = '<td colspan="7" class="p-8 text-center text-amber-700/60 font-bold">お菓子パックが登録されていません。<br>上のフォームからお菓子を追加してください。</td>';
         tbody.appendChild(emptyTr);
       } else {
         snacks.forEach(function(snack) {
@@ -294,44 +302,44 @@
           unitBagTotal += subtotal;
 
           var tr = document.createElement('tr');
-          tr.className = 'hover:bg-slate-50 transition-colors';
+          tr.className = 'hover:bg-amber-50/40 transition-colors';
 
           var tdName = document.createElement('td');
-          tdName.className = 'p-3 font-medium text-slate-800';
+          tdName.className = 'p-3.5 font-bold text-amber-950';
           tdName.textContent = snack.name;
 
           var tdPrice = document.createElement('td');
-          tdPrice.className = 'p-3 text-right text-slate-600';
+          tdPrice.className = 'p-3.5 text-right font-bold text-amber-800/80';
           tdPrice.textContent = snack.price.toLocaleString() + '円';
 
           var tdCount = document.createElement('td');
-          tdCount.className = 'p-3 text-right text-slate-600';
+          tdCount.className = 'p-3.5 text-right font-bold text-amber-800/80';
           tdCount.textContent = snack.count + '個';
 
           var tdUnit = document.createElement('td');
-          tdUnit.className = 'p-3 text-right font-bold text-amber-700 bg-amber-50/30';
+          tdUnit.className = 'p-3.5 text-right font-black text-orange-600 bg-orange-100/30';
           tdUnit.textContent = unitPrice + '円';
 
           var tdPerBag = document.createElement('td');
-          tdPerBag.className = 'p-3 text-center no-print';
+          tdPerBag.className = 'p-3.5 text-center no-print';
           var inputPerBag = document.createElement('input');
           inputPerBag.type = 'number';
           inputPerBag.min = '0';
           inputPerBag.value = snack.perBag;
-          inputPerBag.className = 'w-16 px-2 py-1 text-center border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none font-bold';
+          inputPerBag.className = 'w-16 px-2 py-1 text-center border-2 border-amber-200 rounded-xl focus:border-orange-400 focus:outline-none font-black text-amber-900 bg-white';
           inputPerBag.addEventListener('change', function(e) {
             updatePerBag(snack.id, e.target.value);
           });
           tdPerBag.appendChild(inputPerBag);
 
           var tdSubtotal = document.createElement('td');
-          tdSubtotal.className = 'p-3 text-right font-bold text-slate-800';
+          tdSubtotal.className = 'p-3.5 text-right font-black text-amber-900';
           tdSubtotal.textContent = subtotal.toLocaleString() + '円';
 
           var tdAction = document.createElement('td');
-          tdAction.className = 'p-3 text-center no-print';
+          tdAction.className = 'p-3.5 text-center no-print';
           var btnDelete = document.createElement('button');
-          btnDelete.className = 'text-slate-400 hover:text-red-500 p-1 transition';
+          btnDelete.className = 'text-amber-300 hover:text-rose-500 p-1 transition';
           btnDelete.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
           btnDelete.addEventListener('click', function() {
             deleteSnack(snack.id);
@@ -360,7 +368,7 @@
       var actualTotalCost = 0;
 
       if (snacks.length === 0) {
-        shoppingListEl.innerHTML = '<p class="text-xs text-slate-400 py-2 text-center">お菓子が登録されていません</p>';
+        shoppingListEl.innerHTML = '<p class="text-xs font-bold text-amber-700/60 py-2 text-center">お菓子が登録されていません</p>';
       }
 
       snacks.forEach(function(snack) {
@@ -378,19 +386,19 @@
         
         var leftBox = document.createElement('div');
         var nameDiv = document.createElement('div');
-        nameDiv.className = 'font-medium text-slate-800';
+        nameDiv.className = 'font-bold text-amber-950';
         nameDiv.textContent = snack.name;
         
         var subDiv = document.createElement('div');
-        subDiv.className = 'text-xs text-slate-500';
-        subDiv.innerHTML = '必要: ' + totalNeededPieces + '個 ➔ <span class="font-bold text-indigo-600">' + requiredPacks + 'パック</span>' + 
-          (surplusPieces > 0 ? ' <span class="text-slate-400">（' + surplusPieces + '個あまり）</span>' : '');
+        subDiv.className = 'text-xs font-bold text-amber-700/70';
+        subDiv.innerHTML = '必要: ' + totalNeededPieces + '個 ➔ <span class="font-extrabold text-orange-500">' + requiredPacks + 'パック</span>' + 
+          (surplusPieces > 0 ? ' <span class="text-amber-400">（' + surplusPieces + '個あまり）</span>' : '');
 
         leftBox.appendChild(nameDiv);
         leftBox.appendChild(subDiv);
 
         var rightBox = document.createElement('div');
-        rightBox.className = 'text-right font-bold text-slate-700';
+        rightBox.className = 'text-right font-extrabold text-amber-900';
         rightBox.textContent = packCost.toLocaleString() + '円';
 
         item.appendChild(leftBox);
