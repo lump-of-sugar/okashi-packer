@@ -81,7 +81,7 @@
       <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
         <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
           <h2 class="font-bold text-slate-700 flex items-center gap-2">
-            <i class="fa-solid fa-cookie-bite text-amber-500"></i> お菓子一覧 & 1袋への封入数
+            <i class="fa-solid fa-cookie-bite text-amber-500"></i> お菓子一覧 &amp; 1袋への封入数
           </h2>
           <span class="text-xs text-slate-500">※個包装単価は小数点以下切り上げ</span>
         </div>
@@ -182,34 +182,27 @@
   </main>
 
   <script>
-    const DEFAULT_SNACKS = [
-      { id: '1', name: 'うまい棒 (30本入)', price: 360, count: 30, perBag: 1 },
-      { id: '2', name: 'ハッピーターン ミニ (20袋)', price: 420, count: 20, perBag: 1 },
-      { id: '3', name: 'ブラックサンダー (20個)', price: 460, count: 20, perBag: 1 },
-      { id: '4', name: 'フルーツキャンディ (50粒)', price: 300, count: 50, perBag: 2 }
-    ];
+    var snacks = [];
+    var targetSets = 50;
 
-    let snacks = [];
-    let targetSets = 50;
-
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', function() {
       loadDataFromLocalStorage();
       setupEventListeners();
       render();
     });
 
     function loadDataFromLocalStorage() {
-      const savedSnacks = localStorage.getItem('okashi_calc_snacks');
-      const savedSets = localStorage.getItem('okashi_calc_target_sets');
+      var savedSnacks = localStorage.getItem('okashi_calc_snacks');
+      var savedSets = localStorage.getItem('okashi_calc_target_sets');
 
       if (savedSnacks) {
         try {
           snacks = JSON.parse(savedSnacks);
         } catch (e) {
-          snacks = JSON.parse(JSON.stringify(DEFAULT_SNACKS));
+          snacks = [];
         }
       } else {
-        snacks = JSON.parse(JSON.stringify(DEFAULT_SNACKS));
+        snacks = [];
       }
 
       if (savedSets) {
@@ -225,14 +218,13 @@
     }
 
     function setupEventListeners() {
-      // フォーム送信（お菓子追加）
-      document.getElementById('add-snack-form').addEventListener('submit', (e) => {
+      document.getElementById('add-snack-form').addEventListener('submit', function(e) {
         e.preventDefault();
-        const nameInput = document.getElementById('input-name');
-        const priceInput = document.getElementById('input-price');
-        const countInput = document.getElementById('input-count');
+        var nameInput = document.getElementById('input-name');
+        var priceInput = document.getElementById('input-price');
+        var countInput = document.getElementById('input-count');
 
-        const newSnack = {
+        var newSnack = {
           id: Date.now().toString(),
           name: nameInput.value.trim(),
           price: Number(priceInput.value),
@@ -250,17 +242,15 @@
         nameInput.focus();
       });
 
-      // 目標セット数変更
-      document.getElementById('input-target-sets').addEventListener('input', (e) => {
+      document.getElementById('input-target-sets').addEventListener('input', function(e) {
         targetSets = Math.max(1, parseInt(e.target.value, 10) || 1);
         saveDataToLocalStorage();
         render();
       });
 
-      // リセットボタン
-      document.getElementById('btn-reset').addEventListener('click', () => {
-        if (confirm('登録した内容を初期状態（サンプルデータ）に戻しますか？')) {
-          snacks = JSON.parse(JSON.stringify(DEFAULT_SNACKS));
+      document.getElementById('btn-reset').addEventListener('click', function() {
+        if (confirm('登録した内容を消去して初期化しますか？')) {
+          snacks = [];
           targetSets = 50;
           document.getElementById('input-target-sets').value = targetSets;
           saveDataToLocalStorage();
@@ -268,19 +258,18 @@
         }
       });
 
-      // コピーボタン
       document.getElementById('btn-copy').addEventListener('click', copySummaryText);
     }
 
     function deleteSnack(id) {
-      snacks = snacks.filter(item => item.id !== id);
+      snacks = snacks.filter(function(item) { return item.id !== id; });
       saveDataToLocalStorage();
       render();
     }
 
     function updatePerBag(id, val) {
-      const num = Math.max(0, parseInt(val, 10) || 0);
-      const target = snacks.find(s => s.id === id);
+      var num = Math.max(0, parseInt(val, 10) || 0);
+      var target = snacks.find(function(s) { return s.id === id; });
       if (target) {
         target.perBag = num;
         saveDataToLocalStorage();
@@ -289,134 +278,166 @@
     }
 
     function render() {
-      const tbody = document.getElementById('snack-table-body');
+      var tbody = document.getElementById('snack-table-body');
       tbody.innerHTML = '';
 
-      let unitBagTotal = 0;
+      var unitBagTotal = 0;
 
-      snacks.forEach(snack => {
-        const unitPrice = Math.ceil(snack.price / snack.count);
-        const subtotal = unitPrice * snack.perBag;
-        unitBagTotal += subtotal;
+      if (snacks.length === 0) {
+        var emptyTr = document.createElement('tr');
+        emptyTr.innerHTML = '<td colspan="7" class="p-8 text-center text-slate-400">お菓子パックが登録されていません。<br>上のフォームからお菓子を追加してください。</td>';
+        tbody.appendChild(emptyTr);
+      } else {
+        snacks.forEach(function(snack) {
+          var unitPrice = Math.ceil(snack.price / snack.count);
+          var subtotal = unitPrice * snack.perBag;
+          unitBagTotal += subtotal;
 
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition-colors';
+          var tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50 transition-colors';
 
-        tr.innerHTML = `
-          <td class="p-3 font-medium text-slate-800">${escapeHtml(snack.name)}</td>
-          <td class="p-3 text-right text-slate-600">${snack.price.toLocaleString()}円</td>
-          <td class="p-3 text-right text-slate-600">${snack.count}個</td>
-          <td class="p-3 text-right font-bold text-amber-700 bg-amber-50/30">${unitPrice}円</td>
-          <td class="p-3 text-center no-print">
-            <input type="number" min="0" value="${snack.perBag}" data-id="${snack.id}"
-                   class="input-per-bag w-16 px-2 py-1 text-center border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none font-bold">
-          </td>
-          <td class="p-3 text-right font-bold text-slate-800">${subtotal.toLocaleString()}円</td>
-          <td class="p-3 text-center no-print">
-            <button data-id="${snack.id}" class="btn-delete text-slate-400 hover:text-red-500 p-1 transition">
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+          var tdName = document.createElement('td');
+          tdName.className = 'p-3 font-medium text-slate-800';
+          tdName.textContent = snack.name;
 
-      // テーブル内の入力イベントを設定
-      document.querySelectorAll('.input-per-bag').forEach(input => {
-        input.addEventListener('change', (e) => {
-          updatePerBag(e.target.getAttribute('data-id'), e.target.value);
+          var tdPrice = document.createElement('td');
+          tdPrice.className = 'p-3 text-right text-slate-600';
+          tdPrice.textContent = snack.price.toLocaleString() + '円';
+
+          var tdCount = document.createElement('td');
+          tdCount.className = 'p-3 text-right text-slate-600';
+          tdCount.textContent = snack.count + '個';
+
+          var tdUnit = document.createElement('td');
+          tdUnit.className = 'p-3 text-right font-bold text-amber-700 bg-amber-50/30';
+          tdUnit.textContent = unitPrice + '円';
+
+          var tdPerBag = document.createElement('td');
+          tdPerBag.className = 'p-3 text-center no-print';
+          var inputPerBag = document.createElement('input');
+          inputPerBag.type = 'number';
+          inputPerBag.min = '0';
+          inputPerBag.value = snack.perBag;
+          inputPerBag.className = 'w-16 px-2 py-1 text-center border border-slate-300 rounded focus:ring-2 focus:ring-indigo-500 focus:outline-none font-bold';
+          inputPerBag.addEventListener('change', function(e) {
+            updatePerBag(snack.id, e.target.value);
+          });
+          tdPerBag.appendChild(inputPerBag);
+
+          var tdSubtotal = document.createElement('td');
+          tdSubtotal.className = 'p-3 text-right font-bold text-slate-800';
+          tdSubtotal.textContent = subtotal.toLocaleString() + '円';
+
+          var tdAction = document.createElement('td');
+          tdAction.className = 'p-3 text-center no-print';
+          var btnDelete = document.createElement('button');
+          btnDelete.className = 'text-slate-400 hover:text-red-500 p-1 transition';
+          btnDelete.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+          btnDelete.addEventListener('click', function() {
+            deleteSnack(snack.id);
+          });
+          tdAction.appendChild(btnDelete);
+
+          tr.appendChild(tdName);
+          tr.appendChild(tdPrice);
+          tr.appendChild(tdCount);
+          tr.appendChild(tdUnit);
+          tr.appendChild(tdPerBag);
+          tr.appendChild(tdSubtotal);
+          tr.appendChild(tdAction);
+
+          tbody.appendChild(tr);
         });
-      });
+      }
 
-      document.querySelectorAll('.btn-delete').forEach(button => {
-        button.addEventListener('click', (e) => {
-          const id = e.currentTarget.getAttribute('data-id');
-          deleteSnack(id);
-        });
-      });
-
-      // 単価合計・セット数計算
       document.getElementById('unit-set-price').textContent = unitBagTotal.toLocaleString();
       document.getElementById('summary-sets-count').textContent = targetSets.toLocaleString();
       document.getElementById('summary-pure-total').textContent = (unitBagTotal * targetSets).toLocaleString();
 
-      // 買い出し内訳リストの計算
-      const shoppingListEl = document.getElementById('shopping-list');
+      var shoppingListEl = document.getElementById('shopping-list');
       shoppingListEl.innerHTML = '';
 
-      let actualTotalCost = 0;
+      var actualTotalCost = 0;
 
       if (snacks.length === 0) {
         shoppingListEl.innerHTML = '<p class="text-xs text-slate-400 py-2 text-center">お菓子が登録されていません</p>';
       }
 
-      snacks.forEach(snack => {
+      snacks.forEach(function(snack) {
         if (snack.perBag <= 0) return;
 
-        const totalNeededPieces = snack.perBag * targetSets;
-        const requiredPacks = Math.ceil(totalNeededPieces / snack.count);
-        const packCost = requiredPacks * snack.price;
-        const surplusPieces = (requiredPacks * snack.count) - totalNeededPieces;
+        var totalNeededPieces = snack.perBag * targetSets;
+        var requiredPacks = Math.ceil(totalNeededPieces / snack.count);
+        var packCost = requiredPacks * snack.price;
+        var surplusPieces = (requiredPacks * snack.count) - totalNeededPieces;
 
         actualTotalCost += packCost;
 
-        const item = document.createElement('div');
+        var item = document.createElement('div');
         item.className = 'pt-2 flex justify-between items-start';
-        item.innerHTML = `
-          <div>
-            <div class="font-medium text-slate-800">${escapeHtml(snack.name)}</div>
-            <div class="text-xs text-slate-500">
-              必要: ${totalNeededPieces}個 ➔ <span class="font-bold text-indigo-600">${requiredPacks}パック</span>
-              ${surplusPieces > 0 ? `<span class="text-slate-400">（${surplusPieces}個あまり）</span>` : ''}
-            </div>
-          </div>
-          <div class="text-right font-bold text-slate-700">
-            ${packCost.toLocaleString()}円
-          </div>
-        `;
+        
+        var leftBox = document.createElement('div');
+        var nameDiv = document.createElement('div');
+        nameDiv.className = 'font-medium text-slate-800';
+        nameDiv.textContent = snack.name;
+        
+        var subDiv = document.createElement('div');
+        subDiv.className = 'text-xs text-slate-500';
+        subDiv.innerHTML = '必要: ' + totalNeededPieces + '個 ➔ <span class="font-bold text-indigo-600">' + requiredPacks + 'パック</span>' + 
+          (surplusPieces > 0 ? ' <span class="text-slate-400">（' + surplusPieces + '個あまり）</span>' : '');
+
+        leftBox.appendChild(nameDiv);
+        leftBox.appendChild(subDiv);
+
+        var rightBox = document.createElement('div');
+        rightBox.className = 'text-right font-bold text-slate-700';
+        rightBox.textContent = packCost.toLocaleString() + '円';
+
+        item.appendChild(leftBox);
+        item.appendChild(rightBox);
+
         shoppingListEl.appendChild(item);
       });
 
       document.getElementById('summary-actual-cost').textContent = actualTotalCost.toLocaleString();
     }
 
-    function escapeHtml(str) {
-      return str.replace(/[&<>"']/g, function(m) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
-      });
-    }
-
     function copySummaryText() {
-      let unitBagTotal = 0;
-      let text = `【お菓子詰め合わせ 予算計算内訳】\n`;
-      text += `作成セット数: ${targetSets}セット\n------------------------------\n`;
+      if (snacks.length === 0) {
+        alert('お菓子が登録されていません。');
+        return;
+      }
 
-      snacks.forEach(s => {
-        const uPrice = Math.ceil(s.price / s.count);
-        const sub = uPrice * s.perBag;
+      var unitBagTotal = 0;
+      var text = "【お菓子詰め合わせ 予算計算内訳】\n";
+      text += "作成セット数: " + targetSets + "セット\n------------------------------\n";
+
+      snacks.forEach(function(s) {
+        var uPrice = Math.ceil(s.price / s.count);
+        var sub = uPrice * s.perBag;
         unitBagTotal += sub;
-        text += `・${s.name}: 1袋${s.perBag}個 (${uPrice}円/個) = ${sub}円\n`;
+        text += "・" + s.name + ": 1袋" + s.perBag + "個 (" + uPrice + "円/個) = " + sub + "円\n";
       });
 
-      text += `------------------------------\n1袋あたり単価合計: ${unitBagTotal}円\n`;
-      text += `単純合計 (${targetSets}セット): ${unitBagTotal * targetSets}円\n\n`;
-      text += `【買い出しに必要なパック数】\n`;
+      text += "------------------------------\n1袋あたり単価合計: " + unitBagTotal + "円\n";
+      text += "単純合計 (" + targetSets + "セット): " + (unitBagTotal * targetSets) + "円\n\n";
+      text += "【買い出しに必要なパック数】\n";
 
-      let totalCost = 0;
-      snacks.forEach(s => {
+      var totalCost = 0;
+      snacks.forEach(function(s) {
         if (s.perBag <= 0) return;
-        const totalP = s.perBag * targetSets;
-        const packs = Math.ceil(totalP / s.count);
-        const cost = packs * s.price;
+        var totalP = s.perBag * targetSets;
+        var packs = Math.ceil(totalP / s.count);
+        var cost = packs * s.price;
         totalCost += cost;
-        text += `・${s.name}: ${packs}パック (${cost}円)\n`;
+        text += "・" + s.name + ": " + packs + "パック (" + cost + "円)\n";
       });
 
-      text += `------------------------------\n買い出し総予算: ${totalCost}円`;
+      text += "------------------------------\n買い出し総予算: " + totalCost + "円";
 
-      navigator.clipboard.writeText(text).then(() => {
+      navigator.clipboard.writeText(text).then(function() {
         alert('クリップボードに内訳テキストをコピーしました！LINEやチャットに貼り付けられます。');
-      }).catch(() => {
+      }).catch(function() {
         alert('コピーに失敗しました。');
       });
     }
